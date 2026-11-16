@@ -8,6 +8,7 @@ import org.jetbrains.annotations.ApiStatus;
 
 import com.mojang.serialization.Codec;
 
+import dev.shadowsoffire.apothic_attributes.ALConfig;
 import dev.shadowsoffire.apothic_attributes.ApothicAttributes;
 import dev.shadowsoffire.apothic_attributes.mob_effect.BleedingEffect;
 import dev.shadowsoffire.apothic_attributes.mob_effect.DetonationEffect;
@@ -89,11 +90,14 @@ public class ALObjects {
         public static final Holder<Attribute> COLD_DAMAGE = R.attribute("cold_damage", () -> new RangedAttribute("apothic_attributes:cold_damage", 0.0D, 0.0D, 1000.0D).setSyncable(true));
 
         /**
-         * Chance that any attack will critically strike. Base value = (0.05) = 5% chance to critically strike.
+         * Chance that any attack will critically strike. Default base value = (0.05) = 5% chance to critically strike.
+         * <p>
+         * The default base value can be configured with "Default Crit Chance" in the config.
          * <p>
          * Not related to vanilla (jump) critical strikes.
          */
-        public static final Holder<Attribute> CRIT_CHANCE = R.attribute("crit_chance", () -> new PercentageAttribute("apothic_attributes:crit_chance", 0.05D, 0.0D, 10.0D).setSyncable(true));
+        public static final Holder<Attribute> CRIT_CHANCE = R.attribute("crit_chance",
+            () -> new PercentageAttribute("apothic_attributes:crit_chance", ALConfig.defaultCritChance, 0.0D, 10.0D).setSyncable(true));
 
         /**
          * Amount of damage caused by critical strikes. Base value = (1.5) = 150% normal damage dealt.

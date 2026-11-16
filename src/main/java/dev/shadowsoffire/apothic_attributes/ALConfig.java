@@ -30,6 +30,7 @@ public class ALConfig {
     private static Optional<Expression> armorExpr;
     private static Optional<Expression> toughnessExpr;
     public static float negativeArmorFactor = 0.015F;
+    public static float defaultCritChance = 0.05F;
 
     public static Configuration load() {
         Configuration cfg = new Configuration(ApothicAttributes.getConfigFile(ApothicAttributes.MODID));
@@ -144,6 +145,14 @@ public class ALConfig {
                 A value of 0.015 means that 1 point of negative armor will increase incoming damage by 1.5%.
                 Note:
                     Negative armor is typically only encountered when the attacker has more armor pen than the defender has armor.
+                """);
+
+        defaultCritChance = cfg.getFloat("Default Crit Chance", "combat_rules", 0.05F, 0.0F, 10.0F,
+            """
+                The default base value of the Crit Chance attribute, which is added to all living entities.
+                Vanilla has no random critical strikes, so packs seeking a vanilla combat baseline may set this to 0.
+                Explicit crit chance modifiers (such as those from equipment) are unaffected by this value.
+                This is read once when the attribute is registered; changes require a game restart.
                 """);
 
         if (cfg.hasChanged()) cfg.save();

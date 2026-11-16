@@ -76,12 +76,15 @@ public class ApothicAttributes {
         PayloadHelper.registerPayload(new CritParticlePayload.Provider());
         ALObjects.bootstrap(bus);
         NeoForgeMod.enableMergedAttributeTooltips();
+        // Load the config during construction so registered attribute defaults (such as Crit Chance) can be configurable.
+        // Attributes added by mods are not yet registered here, so namespace wildcards in "Hidden Attributes" only
+        // resolve on the first resource reload; explicit entries are unaffected.
+        ALConfig.load();
     }
 
     @SubscribeEvent
     public void init(FMLCommonSetupEvent e) {
         e.enqueueWork(() -> {
-            ALConfig.load();
             MobEffects.BLINDNESS.value().addAttributeModifier(Attributes.FOLLOW_RANGE, loc("blindness"), -0.75, Operation.ADD_MULTIPLIED_TOTAL);
             // TODO: Update to show in GUI without applying attribute to entity
             // if (MobEffects.SLOW_FALLING.getAttributeModifiers().isEmpty()) {
